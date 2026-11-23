@@ -1,0 +1,102 @@
+<!Doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Character Count Tool</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="heading">
+        <h1><i class="ri-file-text-line"></i> Text Analyzer</h1>
+        <p>Analyze your text instantly and keep track of every detail.</p>
+      </div>
+      <div class="txtboard">
+        <textarea
+          id="txt"
+          placeholder="Start typing or paste your text here..."
+        ></textarea>
+        <i class="ri-file-copy-line" id="copy" title="Copy text"></i>
+        <button id="clear"><i class="ri-delete-bin-line"></i> Clear</button>
+      </div>
+      <div class="par">
+        <div class="counter">
+          <i class="ri-text"></i>
+          <h3>Characters</h3>
+          <p id="ch">0</p>
+        </div>
+        <div class="counter">
+          <i class="ri-file-word-line"></i>
+          <h3>Words</h3>
+          <p id="wrd">0</p>
+        </div>
+        <div class="counter">
+          <i class="ri-chat-quote-line"></i>
+          <h3>Sentences</h3>
+          <p id="sen">0</p>
+        </div>
+        <div class="counter">
+          <i class="ri-space"></i>
+          <h3>Spaces</h3>
+          <p id="sp">0</p>
+        </div>
+        <div class="counter">
+          <i class="ri-file-list-3-line"></i>
+          <h3>Paragraphs</h3>
+          <p id="parcount">0</p>
+        </div>
+      </div>
+      <div class="footer">Text Analyzer • Live text statistics</div>
+    </div>
+    <script>
+      let txt = document.getElementById("txt");
+      let ch = document.getElementById("ch");
+      let wrd = document.getElementById("wrd");
+      let sent = document.getElementById("sen");
+      let sp = document.getElementById("sp");
+      let copy = document.getElementById("copy");
+      let parcount = document.getElementById("parcount");
+      let clear = document.getElementById("clear");
+      txt.addEventListener("input", () => {
+        let i = txt.value;
+        ch.innerHTML = i.length;
+        let word = i
+          .trim()
+          .split(/\s+/)
+          .filter((n) => n.trim() !== "");
+        wrd.innerHTML = word.length;
+        let sen = i.split(/[.?!]+/).filter((n) => n.trim() !== "");
+        sent.innerHTML = sen.length;
+        let spa = i.match(/ /g) || [];
+        sp.innerHTML = spa.length;
+        let paragraph = i.split("\n").filter((n) => n.trim() !== "");
+        parcount.innerHTML = paragraph.length;
+      });
+      copy.addEventListener("click", () => {
+        if (txt.value.trim() === "") {
+          return;
+        }
+        navigator.clipboard.writeText(txt.value);
+        copy.classList.remove("ri-file-copy-line");
+        copy.classList.add("ri-check-line");
+        setTimeout(() => {
+          copy.classList.remove("ri-check-line");
+          copy.classList.add("ri-file-copy-line");
+        }, 1500);
+      });
+      clear.addEventListener("click", () => {
+        txt.value = "";
+        ch.innerHTML = "0";
+        wrd.innerHTML = "0";
+        sent.innerHTML = "0";
+        sp.innerHTML = "0";
+        parcount.innerHTML = "0";
+      });
+    </script>
+  </body>
+</html>
